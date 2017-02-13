@@ -52,8 +52,6 @@
             if ($("#inputWord").val() == "") {
               $("#inputHint").removeClass("label-top");
               $("#inputWord").attr("placeholder", $("#inputHint").html()).focus().blur();
-            } else {
-              continueJourney();
             }
           }
       });
@@ -73,6 +71,15 @@
             document.querySelector('#inputHint').innerHTML = data.word;
           });
       }
+
+      var blurOccurred;
+
+      $("#inputWord")
+      .on("blur", function(evt) {
+        if ($("#inputWord").val() != "") {
+          continueJourney();
+        }
+      });
 
       </script>
 
