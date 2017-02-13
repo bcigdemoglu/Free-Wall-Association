@@ -42,4 +42,13 @@ label {
     height:18em;
     margin-top: -9em; /*set to a negative number 1/2 of your height*/
     margin-left: -15em; /*set to a negative number 1/2 of your width*/
-}m
+}
+
+@media only screen and (max-width : 768px) {
+  input {
+    font-size: 3em;
+  }
+  .label-top {
+    font-size: 2em;
+  }
+}
