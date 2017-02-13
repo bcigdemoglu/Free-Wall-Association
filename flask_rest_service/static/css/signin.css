@@ -5,20 +5,20 @@ body {
   color:#444;
   font-family: Helvetica;
 }
-.input-group {
 
-}
 input {
  border: none;
  border-bottom: 1px solid #888;
- font-size:4vw;
+ font-size:6vw;
  transition: all .5s;
 }
+
 input:focus {
   outline:none;
   border-bottom-width:4px;
   border-color:#68f
 }
+
 label {
   color: #aaa;
   display: flex;
@@ -32,17 +32,17 @@ label {
   visibility: visible;
   opacity: 1;
   top: -1.5em;
-  font-size:2vw;
+  font-size:5vw;
 }
 
 #mydiv {
     /*position:fixed;*/
-    top: 50%;
-    left: 50%;
+    /*top: 50%;*/
+    /*left: 50%;*/
     /*height:18em;*/
     /*margin-top: -9em; set to a negative number 1/2 of your height*/
-    margin-left: -15em; /*set to a negative number 1/2 of your width*/
-    margin: 0 auto;
+    /*margin-left: -15em; set to a negative number 1/2 of your width*/
+    /*margin: 0 auto;*/
     display: flex;
     align-items: center;
     justify-content: center;
