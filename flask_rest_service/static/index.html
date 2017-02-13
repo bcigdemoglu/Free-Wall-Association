@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Signin Template for Bootstrap</title>
+
+    <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+
+    <!-- Bootstrap core CSS -->
+    <!-- <link href="/static/css/bootstrap.min.css" rel="stylesheet"> -->
+
+    <!-- Custom styles for this template -->
+    <link href="/static/css/signin.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <div class="input-group" id='mydiv'>
+      <div class="container">
+
+        <form class="form">
+        <label id="inputHint">wall</label>
+          <input type="text" id="inputWord" class="form-control" placeholder="wall" required >
+        </form>
+      </div>
+
+    <script>
+
+      document.getElementById('inputWord').onkeydown = function(event) {
+        if (event.keyCode == 13) {
+          event.preventDefault();
+          var word = document.querySelector('#inputWord').value;
+          var params = {word: word};
+          console.log(params);
+          $.post('/journey/', params, null, 'json')
+            .done(function (data) {
+              console.log(data);
+              console.log(data.word);
+              // document.querySelector('#wallHeader').innerText = data.word;
+              // document.querySelector('#inputWord').value = data.word;
+              $("#inputWord").attr("placeholder", data.word).val("").focus().blur();
+              $("#inputHint").removeClass("label-top");
+              document.querySelector('#inputHint').innerHTML = data.word;
+            }).fail(function(data) {
+                            console.log(data);
+                      });
+        }
+      }
+
+      $("input[type='text']").click(function(){
+        var $this=$(this);
+        $this.attr("placeholder","");
+        $this.parent().find("label").addClass("label-top");
+      });
+
+      $(document).click(function(e) {
+         if(!$(e.target).is('#inputWord') && $("#inputWord").val() == "") {
+            $("#inputHint").removeClass("label-top");
+            $("#inputWord").attr("placeholder", $("#inputHint").html()).focus().blur();
+         }
+      });
+
+      </script>
+
+  </body>
+</html>

@@ -1,0 +1,103 @@
+#!/bin/bash
+
+root="$(dirname "$0")"
+export dbpath="$root/data/db"
+export logpath="$root/log"
+export dblog="$root/log/mongod.log"
+export testscript="$root/run_server.py"
+
+export dbport="27017"
+export apiport="5000"
+export apihost="127.0.0.1"
+export apiserver="http://$apihost:$apiport"
+
+cleanup() {
+  echo "Removing existing database files"
+  rm -r "$dbpath"
+
+  echo "Remove logs"
+  rm -r "$logpath"
+
+  echo "Remove coverage"
+  rm -r "$coverpath"
+}
+
+localstop() {
+  echo "Killing local test server"
+  ps ax | grep run_server.py | awk '{print $1}' | xargs kill
+
+  echo "Killing mongo database file"
+  pgrep mongod | xargs kill
+
+  echo "Exiting virtual environment"
+  deactivate
+}
+
+localrun() {
+  localstop > /dev/null 2>&1
+
+  echo "Installing virtual environment"
+  pip install virtualenv
+
+  echo "Creating virtual environment"
+  virtualenv "$root/venv"
+
+  echo "Activating virtual environment"
+  . "$root/venv/bin/activate"
+
+  echo "Updating dependencies"
+  pip install -r "$root/requirements.txt"
+
+  echo "Removing existing database files"
+  rm -r "$dbpath"
+
+  echo "Creating clean database folders"
+  mkdir -p "$dbpath"
+
+  echo "Create logpath if not existing"
+  mkdir -p "$logpath"
+
+  echo "Starting mongo"
+  mongod --fork --logpath "$dblog" --port "$dbport" --dbpath "$dbpath"
+
+  echo "Waiting for mongod to run"
+  while ! nc -vz "$apihost" "$dbport"; do sleep 1; done
+  echo "Mongod successfully up"
+
+  echo "Running test server"
+  python "$testscript" &
+
+  echo "Waiting for the test server to run"
+  while ! nc -vz "$apihost" "$apiport"; do sleep 1; done
+  echo "Test server successfully up"
+}
+
+localtest() {
+  nosetests --with-coverage --cover-erase --cover-package="$root/flask_rest_service" --cover-html --cover-html-dir="$root/htmlcov" --verbosity=2
+}
+
+# no arguments for testing
+if [[ $1 == "" ]]; then
+  localrun
+  localtest
+  localstop > /dev/null 2>&1
+
+# r for starting servers
+elif [[ $1 == "r" ]]; then
+  localrun
+
+# t only run tests
+elif [[ $1 == "t" ]]; then
+  localtest
+  if [[ $2 == "i" ]]; then
+    open -a "/Applications/Google Chrome.app" "$coverpath/index.html"
+  fi
+
+# s for stopping servers
+elif [[ $1 == "s" ]]; then
+  localstop
+
+elif [[ $1 == "c" ]]; then
+  cleanup
+
+fi

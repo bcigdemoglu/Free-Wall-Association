@@ -1,0 +1,7 @@
+{
+  "name": "Wall Backend",
+  "description": "Wall Backend",
+  "image": "heroku/python",
+  "keywords": ["python", "flask" ],
+  "addons": [ "mongolab" ]
+}
