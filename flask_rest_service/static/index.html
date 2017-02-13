@@ -5,11 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
+    <meta name="description" content="Type what comes to your mind freely">
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Signin Template for Bootstrap</title>
+    <title>Free Wall Association</title>
 
     <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
 
@@ -62,10 +62,6 @@
         console.log(params);
         $.post('/journey/', params, null, 'json')
           .done(function (data) {
-            console.log(data);
-            console.log(data.word);
-            // document.querySelector('#wallHeader').innerText = data.word;
-            // document.querySelector('#inputWord').value = data.word;
             $("#inputWord").attr("placeholder", data.word).val("").focus().blur();
             $("#inputHint").removeClass("label-top");
             document.querySelector('#inputHint').innerHTML = data.word;
