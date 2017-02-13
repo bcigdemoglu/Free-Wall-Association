@@ -37,21 +37,7 @@
       document.getElementById('inputWord').onkeydown = function(event) {
         if (event.keyCode == 13) {
           event.preventDefault();
-          var word = document.querySelector('#inputWord').value;
-          var params = {word: word};
-          console.log(params);
-          $.post('/journey/', params, null, 'json')
-            .done(function (data) {
-              console.log(data);
-              console.log(data.word);
-              // document.querySelector('#wallHeader').innerText = data.word;
-              // document.querySelector('#inputWord').value = data.word;
-              $("#inputWord").attr("placeholder", data.word).val("").focus().blur();
-              $("#inputHint").removeClass("label-top");
-              document.querySelector('#inputHint').innerHTML = data.word;
-            }).fail(function(data) {
-                            console.log(data);
-                      });
+          continueJourney();
         }
       }
 
@@ -62,13 +48,35 @@
       });
 
       $(document).click(function(e) {
-         if(!$(e.target).is('#inputWord') && $("#inputWord").val() == "") {
-            $("#inputHint").removeClass("label-top");
-            $("#inputWord").attr("placeholder", $("#inputHint").html()).focus().blur();
-         }
+         if(!$(e.target).is('#inputWord')) {
+            if ($("#inputWord").val() == "") {
+              $("#inputHint").removeClass("label-top");
+              $("#inputWord").attr("placeholder", $("#inputHint").html()).focus().blur();
+            } else {
+              continueJourney();
+            }
+          }
       });
 
+      var continueJourney = function() {
+        var word = document.querySelector('#inputWord').value;
+        var params = {word: word};
+        console.log(params);
+        $.post('/journey/', params, null, 'json')
+          .done(function (data) {
+            console.log(data);
+            console.log(data.word);
+            // document.querySelector('#wallHeader').innerText = data.word;
+            // document.querySelector('#inputWord').value = data.word;
+            $("#inputWord").attr("placeholder", data.word).val("").focus().blur();
+            $("#inputHint").removeClass("label-top");
+            document.querySelector('#inputHint').innerHTML = data.word;
+          });
+      }
+
       </script>
+
+      <!-- Maybe background http://codepen.io/MarcoGuglielmelli/pen/lLCxy -->
 
   </body>
 </html>
