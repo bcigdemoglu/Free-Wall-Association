@@ -92,17 +92,3 @@ ENV/
 data/
 log/
 
-# Xcode 7
-PlanIt/ConnectionHandler.swift
-
-*.xcuserstate
-*.xcodeproj/*
-!*.xcodeproj/project.pbxproj
-
-# Yelp secret
-yelp_secret.config
-
-
-PlanIt/PlanIt.xcworkspace/xcuserdata/nainarao.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist
-
-PlanIt/PlanIt.xcworkspace/xcuserdata/nainarao.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist
