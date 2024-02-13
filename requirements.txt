@@ -16,3 +16,4 @@ coverage>=4.2
 pylint>=1.6.4
 yelp>=1.0.2
 requests>=2.12.4
+dnspython>=2.6.0rc1 # not directly required, pinned by Snyk to avoid a vulnerability
